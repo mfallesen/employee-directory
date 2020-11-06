@@ -13,12 +13,20 @@ export default class EmployeeTable extends Component {
     
       componentDidMount() {
         this.getRandomEmployees();
-        console.log(this.state.results);
+        // console.log(this.state.results);
       }
     
-      getRandomEmployees = () => {
-        API.getRandomUserSet().then(res => this.setState({ results: res.data.data }))
+      componentDidUpdate() {
+          console.log(this.state.results);
       }
+
+      getRandomEmployees = () => {
+        API.getRandomUserSet().then(res => { 
+            console.log(res); 
+            this.setState({ results: res.data.results})})
+      }
+
+      
 
     render() {
         return (
@@ -31,18 +39,22 @@ export default class EmployeeTable extends Component {
                             <th scope="col">Last</th>
                             <th scope="col">Email</th>
                             <th scope="col">Phone</th>
-                            <th scope="col">DOB</th>
+                            <th scope="col">Age</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <EmployeeCards
-                            picture={"pic"}
-                            first={"first"}
-                            last={"last"}
-                            email={"email"}
-                            phone={"phone"}
-                            dob={"dob"}
-                        />
+                        {this.state.results.map(element => (
+
+                            
+                            <EmployeeCards
+                            picture={element.picture.thumbnail}
+                            first={element.name.first}
+                            last={element.name.last}
+                            email={element.email}
+                            phone={element.phone}
+                            age={element.dob.age}
+                            />
+                            ))};
 
                     </tbody>
 
