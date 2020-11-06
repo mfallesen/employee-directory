@@ -1,11 +1,25 @@
 import React, { Component } from 'react'
 import EmployeeCards from '../EmployeeCards/EmployeeCards';
 import "./EmployeeTable.css"
-
+import API from "../../utils/API.js"
 
 
 
 export default class EmployeeTable extends Component {
+
+    state = {
+        results: []
+      };
+    
+      componentDidMount() {
+        this.getRandomEmployees();
+        console.log(this.state.results);
+      }
+    
+      getRandomEmployees = () => {
+        API.getRandomUserSet().then(res => this.setState({ results: res.data.data }))
+      }
+
     render() {
         return (
             <div>

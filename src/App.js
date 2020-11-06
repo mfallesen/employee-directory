@@ -3,21 +3,21 @@ import './App.css';
 import EmployeeTable from "./components/EmployeeTable/EmployeeTable";
 import SearchBar from "./components/SearchBar/SearchBar";
 import SiteHeader from "./components/SiteHeader/SiteHeader";
-import API from "../src/utils/API.js"
+// import API from "../src/utils/API.js"
 
 
 class App extends Component {
-  state = {
-    results: []
-  };
+  // state = {
+  //   results: []
+  // };
 
-  componentDidMount() {
-    this.getRandomEmployees();
-  }
+  // componentDidMount() {
+  //   this.getRandomEmployees();
+  // }
 
-  getRandomEmployees = () => {
-    API.getRandomUserSet().then(res => this.setState({ results: res.data.data }))
-  }
+  // getRandomEmployees = () => {
+  //   API.getRandomUserSet().then(res => this.setState({ results: res.data.data }))
+  // }
 
 
   render() {
