@@ -14,17 +14,7 @@ function App() {
   useEffect(() => {
     
   })
-  // state = {
-  //   results: []
-  // };
-
-  // componentDidMount() {
-  //   this.getRandomEmployees();
-  // }
-
-  // getRandomEmployees = () => {
-  //   API.getRandomUserSet().then(res => this.setState({ results: res.data.data }))
-  // }
+  
 
 
 
