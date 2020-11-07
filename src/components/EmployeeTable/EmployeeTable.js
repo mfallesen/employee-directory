@@ -8,27 +8,42 @@ import API from "../../utils/API.js"
 export default class EmployeeTable extends Component {
 
     state = {
-        results: []
+        results: [],
+        filteredResults: []
       };
     
+      handleSetFilter(filteredText) {
+        let filteredResults = this.state.results.filter(employee => {
+            return employee.name.first.includes(filteredText)
+        })
+        this.setState({filteredResults: filteredResults})
+      }
+
       componentDidMount() {
         this.getRandomEmployees();
         // console.log(this.state.results);
       }
     
-      componentDidUpdate() {
-          console.log(this.state.results);
+      componentDidUpdate(prevProps, prevState) {
+          console.log("updated",this.state);
+          if (prevProps.handleSearchState !== this.props.handleSearchState || prevState.results !== this.state.results) {
+              this.handleSetFilter(this.props.handleSearchState);
+            console.log("How Often?");
+          }
+          console.log(this.state.filteredResults);
       }
 
       getRandomEmployees = () => {
         API.getRandomUserSet().then(res => { 
-            console.log(res); 
             this.setState({ results: res.data.results})})
       }
 
       
 
     render() {
+
+        let employeeList = this.state.filteredResults.length !== 0 ? this.state.filteredResults : []
+        console.log(employeeList);
         return (
             <div>
                 <table className="table">
@@ -43,7 +58,7 @@ export default class EmployeeTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.results.map(element => (
+                        { employeeList.map(element => (
 
                             
                             <EmployeeCards
@@ -54,7 +69,7 @@ export default class EmployeeTable extends Component {
                             phone={element.phone}
                             age={element.dob.age}
                             />
-                            ))};
+                            ))}
 
                     </tbody>
 

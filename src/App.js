@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import './App.css';
 import EmployeeTable from "./components/EmployeeTable/EmployeeTable";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -6,7 +6,14 @@ import SiteHeader from "./components/SiteHeader/SiteHeader";
 // import API from "../src/utils/API.js"
 
 
-class App extends Component {
+function App() {
+
+
+  const [searchState, setSearchState] = useState("")
+
+  useEffect(() => {
+    
+  })
   // state = {
   //   results: []
   // };
@@ -20,15 +27,15 @@ class App extends Component {
   // }
 
 
-  render() {
-    return (
-      <div className="App">
-        <SiteHeader></SiteHeader>
-        <SearchBar></SearchBar>
-        <EmployeeTable></EmployeeTable>
-      </div>
-    );
-  }
+
+  return (
+    <div className="App">
+      <SiteHeader></SiteHeader>
+      <SearchBar handleSetSearchState={setSearchState} handleSearchState={searchState}></SearchBar>
+      <EmployeeTable handleSearchState={searchState}></EmployeeTable>
+    </div>
+  );
+
 }
 
 export default App;
