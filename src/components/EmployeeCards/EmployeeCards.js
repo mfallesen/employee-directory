@@ -10,7 +10,7 @@ export default function EmployeeCards(props) {
             <td>{props.last}</td>
             <td>{props.email}</td>
             <td>{props.phone}</td>
-            <td>{props.dob}</td>
+            <td>{props.age}</td>
 
         </tr>
 
