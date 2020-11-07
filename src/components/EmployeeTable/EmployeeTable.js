@@ -9,36 +9,54 @@ export default class EmployeeTable extends Component {
 
     state = {
         results: [],
-        filteredResults: []
-      };
-    
-      handleSetFilter(filteredText) {
+        filteredResults: [],
+        descending: false
+    };
+
+    handleSetFilter(filteredText) {
         let filteredResults = this.state.results.filter(employee => {
             return employee.name.first.includes(filteredText)
         })
-        this.setState({filteredResults: filteredResults})
-      }
+        this.setState({ filteredResults: filteredResults })
+    }
 
-      componentDidMount() {
+    componentDidMount() {
         this.getRandomEmployees();
         // console.log(this.state.results);
-      }
-    
-      componentDidUpdate(prevProps, prevState) {
-          console.log("updated",this.state);
-          if (prevProps.handleSearchState !== this.props.handleSearchState || prevState.results !== this.state.results) {
-              this.handleSetFilter(this.props.handleSearchState);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log("updated", this.state);
+        if (prevProps.handleSearchState !== this.props.handleSearchState || prevState.results !== this.state.results) {
+            this.handleSetFilter(this.props.handleSearchState);
             console.log("How Often?");
-          }
-          console.log(this.state.filteredResults);
-      }
+        }
+        console.log(this.state.filteredResults);
+    }
 
-      getRandomEmployees = () => {
-        API.getRandomUserSet().then(res => { 
-            this.setState({ results: res.data.results})})
-      }
+    sortEmployees = (col) => {
 
-      
+        const currentResults = [...this.state.filteredResults]
+        const multi = this.state.descending ? -1 : 1
+
+        currentResults.sort((a, b) => {
+            if (col === "first") {
+                return multi * a.name.first.localeCompare(b.name.first)
+            } else {
+                return multi * a.name.last.localeCompare(b.name.last)
+            }
+        })
+        this.setState({ descending: !this.state.descending, filteredResults: currentResults })
+
+    }
+
+    getRandomEmployees = () => {
+        API.getRandomUserSet().then(res => {
+            this.setState({ results: res.data.results })
+        })
+    }
+
+
 
     render() {
 
@@ -50,26 +68,26 @@ export default class EmployeeTable extends Component {
                     <thead className="thead-light">
                         <tr>
                             <th scope="col">Picture</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
+                            <th scope="col" onClick={() => this.sortEmployees("first")}>First</th>
+                            <th scope="col" onClick={() => this.sortEmployees("last")}>Last</th>
                             <th scope="col">Email</th>
                             <th scope="col">Phone</th>
                             <th scope="col">Age</th>
                         </tr>
                     </thead>
                     <tbody>
-                        { employeeList.map(element => (
+                        {employeeList.map(element => (
 
-                            
+
                             <EmployeeCards
-                            picture={element.picture.thumbnail}
-                            first={element.name.first}
-                            last={element.name.last}
-                            email={element.email}
-                            phone={element.phone}
-                            age={element.dob.age}
+                                picture={element.picture.thumbnail}
+                                first={element.name.first}
+                                last={element.name.last}
+                                email={element.email}
+                                phone={element.phone}
+                                age={element.dob.age}
                             />
-                            ))}
+                        ))}
 
                     </tbody>
 
